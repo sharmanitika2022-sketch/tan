@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candles</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Canvas Confetti / Firecracker Library -->
+         <script src="music.js"></script>
+</body>
+</html>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        #next-btn {
+            display: none;
+        }
+
+        /* Cute Smoke Puff Animation when candles are blown */
+        .smoke {
+            display: none;
+            width: 10px;
+            height: 10px;
+            background: rgba(180, 180, 180, 0.7);
+            border-radius: 50%;
+            position: absolute;
+            top: -20px;
+            left: 1px;
+            animation: smokeRise 1.2s ease-out forwards;
+        }
+
+        @keyframes smokeRise {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-45px) scale(2.8);
+                opacity: 0;
+            }
+        }
+
+        .blow-btn {
+            background: linear-gradient(135deg, #FF69B4, #FFB6C1);
+            font-size: 1.35rem;
+            padding: 16px 42px;
+            border: 3px solid white;
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.45);
+            animation: float 2.2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💖Make a Wish💖</h1>
+        <p id="instruction-text">Close your eyes, make your sweetest birthday wish, and click the <strong>Blow</strong> button below!</p>
+
+        <div class="cake-container">
+            <div class="candle-set">
+                <div class="candle">
+                    <div class="flame"></div>
+                    <div class="smoke"></div>
+                </div>
+                <div class="candle">
+                    <div class="flame"></div>
+                    <div class="smoke"></div>
+                </div>
+                <div class="candle">
+                    <div class="flame"></div>
+                    <div class="smoke"></div>
+                </div>
+            </div>
+            <div class="cake">
+                <div class="cream"></div>
+            </div>
+        </div>
+
+        <!-- One-Click Blow Button -->
+        <button id="blow-btn" class="btn blow-btn" onclick="blowAllCandles()">
+            🌬️ Blow the Candles! 🎂
+        </button>
+
+        <!-- Celebration Message (Appears after blowing) -->
+        <h2 id="wish-msg" style="display: none; margin-top: 15px; animation: bounceIn 0.6s;">
+            🎆 Yayayayyayayaayayyayaayayayay!<br> Happy Birthday BABBYYYYY! May all your dreams come true! 💕
+        </h2>
+
+        <!-- Link to Next Page -->
+        <a href="accept.html" id="next-btn" class="btn">
+            Receive Your Gifts! 👉
+        </a>
+    </div>
+
+    <script>
+        function blowAllCandles() {
+            // 1. Extinguish all 3 flames & show smoke puffs
+            const flames = document.querySelectorAll('.flame');
+            const smokes = document.querySelectorAll('.smoke');
+
+            flames.forEach(flame => flame.classList.add('blown-out'));
+            smokes.forEach(smoke => smoke.style.display = 'block');
+
+            // 2. Hide the Blow button & show the Wish Message + Next Page button
+            document.getElementById('blow-btn').style.display = 'none';
+            document.getElementById('instruction-text').textContent = "Woohoo! Look at the birthday fireworks for my favorite Didi! 🎇🎉";
+            document.getElementById('wish-msg').style.display = 'block';
+            document.getElementById('next-btn').style.display = 'inline-block';
+
+            // 3. Launch Firecrackers / Fireworks across the screen!
+            launchFirecrackers();
+        }
+
+        function launchFirecrackers() {
+            const duration = 4.5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { 
+                startVelocity: 32, 
+                spread: 360, 
+                ticks: 70, 
+                zIndex: 999,
+                colors: ['#FF69B4', '#FFB6C1', '#FFD1DC', '#FFD700', '#FFF0F5', '#FF1493']
+            };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            // Big center burst right away
+            confetti({
+                particleCount: 100,
+                spread: 80,
+                origin: { y: 0.6 },
+                colors: defaults.colors
+            });
+
+            // Continuous firecracker bursts around the screen
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 55 * (timeLeft / duration);
+                
+                // Left side firecracker burst
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: randomInRange(0.1, 0.35), y: Math.random() - 0.2 } 
+                }));
+                
+                // Right side firecracker burst
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: randomInRange(0.65, 0.9), y: Math.random() - 0.2 } 
+                }));
+            }, 250);
+        }
+    </script>
+</body>
+</html>

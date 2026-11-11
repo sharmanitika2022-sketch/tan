@@ -1,0 +1,623 @@
+/* Base Styles & Theme */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    background-color: #FFFDF9; /* Soft Cream */
+    background-image: radial-gradient(#FFC0CB 15%, transparent 15%); /* Pink Polka Dots */
+    background-size: 30px 30px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    padding: 20px;
+}
+
+.container {
+    width: 95%;
+    max-width: 800px;
+    background-color: rgba(255, 255, 255, 0.96);
+    border-radius: 30px;
+    box-shadow: 0 12px 35px rgba(255, 105, 180, 0.25);
+    padding: 40px 30px;
+    text-align: center;
+    border: 5px solid #FFD1DC;
+    position: relative;
+    animation: bounceIn 0.8s ease-out;
+}
+
+h1, h2, h3 {
+    font-family: 'Fredoka One', cursive;
+    color: #FF69B4; /* Hot Pink */
+    text-shadow: 2px 2px #FFE4E1;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+}
+
+p {
+    color: #6c5b7b;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Cute Floating Corner Stickers */
+.sticker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFDF9;
+    border: 4px solid #FFE4E1;
+    border-radius: 50%;
+    padding: 12px;
+    font-size: 2.8rem;
+    box-shadow: 0 6px 15px rgba(255, 105, 180, 0.25);
+    animation: float 3s infinite ease-in-out;
+    user-select: none;
+}
+
+.sticker-banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 15px;
+}
+
+.bday-badge {
+    background: linear-gradient(135deg, #FFB6C1, #FF69B4);
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-size: 1.15rem;
+    border: 3px solid white;
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.35);
+    letter-spacing: 1px;
+}
+
+/* Passcode Lock Screen Styles */
+.passcode-card {
+    max-width: 440px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFF5F7 100%);
+}
+
+.passcode-display {
+    background: #FFFDF9;
+    border: 3px dashed #FFB6C1;
+    border-radius: 20px;
+    padding: 15px 25px;
+    margin: 15px auto 25px auto;
+    width: 240px;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    box-shadow: inset 0 3px 8px rgba(255, 182, 193, 0.2);
+}
+
+.dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 3px solid #FF69B4;
+    background-color: transparent;
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dot.filled {
+    background-color: #FF69B4;
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
+}
+
+.numpad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    max-width: 280px;
+    margin: 0 auto;
+}
+
+.num-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem;
+    color: #FF69B4;
+    background-color: #FFFDF9;
+    border: 3px solid #FFD1DC;
+    border-radius: 22px;
+    height: 65px;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #FFB6C1, 0 8px 15px rgba(255, 105, 180, 0.15);
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.num-btn:hover {
+    background-color: #FFE4E1;
+    transform: translateY(-2px);
+}
+
+.num-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 #FFB6C1;
+}
+
+.num-btn.action-btn {
+    background-color: #FFD1DC;
+    color: #d63384;
+    font-size: 1.2rem;
+}
+
+.num-btn.enter-btn {
+    background-color: #FF69B4;
+    color: white;
+    border-color: #FF69B4;
+    box-shadow: 0 5px 0 #d63384;
+    font-size: 1.2rem;
+}
+
+.error-shake {
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+}
+
+/* Polaroids & Image Placeholders */
+.photo-frame {
+    background-color: white;
+    padding: 15px 15px 35px 15px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+    border: 2px solid #FFE4E1;
+    border-radius: 12px;
+    display: inline-block;
+    transform: rotate(-3deg);
+    transition: transform 0.3s;
+    margin: 20px auto;
+}
+
+.photo-frame:hover {
+    transform: rotate(0deg) scale(1.05);
+}
+
+.photo-placeholder {
+    width: 250px;
+    height: 250px;
+    background-color: #FFF5F7;
+    border: 2px dashed #FF69B4;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FF69B4;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.photo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Cat Asking Gifts Section */
+.cat-stage {
+    position: relative;
+    margin: 25px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.speech-bubble {
+    background: #FFFDF9;
+    border: 3px solid #FF69B4;
+    border-radius: 25px;
+    padding: 12px 24px;
+    font-family: 'Fredoka One', cursive;
+    color: #FF69B4;
+    font-size: 1.15rem;
+    margin-bottom: 18px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.2);
+    animation: float 2.5s infinite ease-in-out;
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 13px 13px 0;
+    border-style: solid;
+    border-color: #FF69B4 transparent;
+    display: block;
+    width: 0;
+}
+
+.cat-box {
+    width: 240px;
+    height: 240px;
+    background: #FFF5F7;
+    border: 4px solid #FFD1DC;
+    border-radius: 28px;
+    box-shadow: 0 10px 25px rgba(255, 182, 193, 0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.cat-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Buttons */
+.btn {
+    font-family: 'Fredoka One', cursive;
+    background-color: #FFB6C1;
+    color: white;
+    border: none;
+    padding: 15px 35px;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    margin: 10px;
+}
+
+.btn:hover {
+    background-color: #FF69B4;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.5);
+}
+
+.btn-secondary {
+    background-color: #FFE4E1;
+    color: #FF69B4;
+}
+
+.btn-secondary:hover {
+    background-color: #FFD1DC;
+}
+
+/* Animations */
+@keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.05); }
+    70% { transform: scale(0.95); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* Candle Blowing Page Specifics */
+.cake-container {
+    position: relative;
+    width: 200px;
+    margin: 60px auto 30px auto;
+}
+
+.cake {
+    width: 200px;
+    height: 120px;
+    background: #FFD1DC;
+    border-radius: 120px 120px 10px 10px;
+    position: relative;
+    border-bottom: 10px solid #FFB6C1;
+}
+
+.cream {
+    width: 100%;
+    height: 30px;
+    background: #FFFDD0;
+    border-radius: 120px 120px 0 0;
+    position: absolute;
+    top: 0;
+}
+
+.candle-set {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    position: absolute;
+    top: -40px;
+    width: 100%;
+}
+
+.candle {
+    width: 12px;
+    height: 45px;
+    background: repeating-linear-gradient(45deg, #FF69B4, #FF69B4 5px, #FFF 5px, #FFF 10px);
+    border-radius: 3px;
+    position: relative;
+    cursor: pointer;
+}
+
+.flame {
+    width: 12px;
+    height: 20px;
+    background: orange;
+    border-radius: 50% 50% 20% 20%;
+    position: absolute;
+    top: -22px;
+    left: 0;
+    box-shadow: 0 0 10px gold;
+    animation: flicker 0.5s infinite alternate;
+}
+
+.flame.blown-out {
+    display: none;
+}
+
+@keyframes flicker {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1) rotate(2deg); }
+}
+
+/* Gifts Choices layout */
+.gifts-grid {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 30px 0;
+}
+
+.gift-card {
+    background: white;
+    border: 3px solid #FFE4E1;
+    border-radius: 20px;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.gift-card:hover {
+    transform: translateY(-8px);
+    border-color: #FF69B4;
+    box-shadow: 0 10px 20px rgba(255, 105, 180, 0.2);
+}
+
+.gift-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    display: inline-block;
+    animation: float 3s infinite ease-in-out;
+}
+
+/* Scrapbook Layout */
+.scrapbook-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+/* --- Cute Floating Music Bar --- */
+.music-bar {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #FFD1DC;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    box-shadow: 0 8px 24px rgba(255, 105, 180, 0.25);
+    z-index: 9999;
+    animation: bounceIn 0.8s ease-out;
+}
+
+/* Base style for the mini buttons */
+.music-bar-btn {
+    background: linear-gradient(135deg, #FFB6C1, #FF69B4);
+    border: 2px solid white;
+    color: white;
+    font-size: 1.1rem;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.music-bar-btn:hover {
+    transform: scale(1.15);
+    box-shadow: 0 6px 14px rgba(255, 105, 180, 0.5);
+}
+
+.music-bar-btn:active {
+    transform: scale(0.95);
+}
+
+/* Pulsing note animation when song is actively playing */
+.note-active {
+    animation: musicPulse 2s infinite ease-in-out;
+}
+
+@keyframes musicPulse {
+    0%, 100% {
+        transform: scale(1) rotate(0deg);
+        filter: hue-rotate(0deg);
+    }
+    50% {
+        transform: scale(1.12) rotate(12deg);
+        filter: hue-rotate(15deg);
+    }
+}
+
+/* ==========================================
+   PAGE 6 SPECIFIC HELPER STYLES (COUPONS)
+   ========================================== */
+.coupon-wrapper {
+    position: relative;
+    min-height: 480px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.coupon-card {
+    width: 100%;
+    max-width: 420px;
+    background: linear-gradient(135deg, #FFFDF9 0%, #FFF0F5 100%);
+    border: 4px dashed #FF69B4;
+    border-radius: 28px;
+    padding: 24px 20px;
+    box-shadow: 0 14px 35px rgba(255, 105, 180, 0.3);
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s ease;
+    position: relative;
+    animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.coupon-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 18px 40px rgba(255, 105, 180, 0.45);
+}
+
+.coupon-card.popping {
+    animation: popBurst 0.45s ease forwards !important;
+    pointer-events: none;
+}
+
+@keyframes popBurst {
+    0% { transform: scale(1); opacity: 1; }
+    40% { transform: scale(1.15) rotate(4deg); filter: brightness(1.2); }
+    100% { transform: scale(0.1) rotate(-10deg); opacity: 0; }
+}
+
+.coupon-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #FF69B4, #FFB6C1);
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    padding: 6px 18px;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+    margin-bottom: 12px;
+}
+
+.coupon-title {
+    font-family: 'Fredoka One', cursive;
+    color: #FF1493;
+    font-size: 1.6rem;
+    line-height: 1.2;
+    margin-bottom: 8px;
+}
+
+.coupon-desc {
+    color: #6c5b7b;
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 14px;
+}
+
+.coupon-img-slot {
+    width: 100%;
+    height: 200px;
+    background: white;
+    border: 3px solid #FFD1DC;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 12px auto;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.coupon-img-slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.coupon-img-fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    color: #FF69B4;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.tap-hint {
+    font-size: 0.85rem;
+    color: #FF69B4;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+    animation: float 2s infinite ease-in-out;
+}
+
+.progress-pill {
+    display: inline-block;
+    background: #FFE4E1;
+    color: #FF69B4;
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+}
+
+#finale-card {
+    display: none;
+    max-width: 450px;
+    margin: 0 auto;
+    background: white;
+    border: 4px solid #FF69B4;
+    border-radius: 28px;
+    padding: 35px 25px;
+    animation: bounceIn 0.8s ease-out;
+    box-shadow: 0 15px 35px rgba(255, 105, 180, 0.35);
+}

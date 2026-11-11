@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passcode! 🔒</title>
+        <script src="music.js"></script>
+</body>
+</html>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container passcode-card" id="lockCard">
+        
+        <!-- Cute Sticker Banner with Cake, Happy Birthday Badge, and Bouquet -->
+        <div class="sticker-banner">
+            <div class="sticker" title="Birthday Cake Sticker">🎂</div>
+            <div class="bday-badge">HAPPY BIRTHDAY!!!</div>
+            <div class="sticker" style="animation-delay: 1.2s;" title="Flower Bouquet Sticker">💐</div>
+        </div>
+
+        <h1>Secret Passcode </h1>
+        <p style="font-size: 1rem; margin-bottom: 10px;">
+            Enter the secret code to unlock your birthday surprise, <strong>BABYYY</strong>! 💕
+        </p>
+
+        <!-- Display Dots for 4-Digit Passcode -->
+        <div class="passcode-display" id="dotsDisplay">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <p id="statusMsg" style="font-size: 0.95rem; color: #FF69B4; min-height: 24px; margin-bottom: 15px; font-weight: bold;">
+            Hint: New Year Eve 🌸
+        </p>
+
+        <!-- Cute Pink Number Pad -->
+        <div class="numpad">
+            <button class="num-btn" onclick="pressNum('1')">1</button>
+            <button class="num-btn" onclick="pressNum('2')">2</button>
+            <button class="num-btn" onclick="pressNum('3')">3</button>
+            <button class="num-btn" onclick="pressNum('4')">4</button>
+            <button class="num-btn" onclick="pressNum('5')">5</button>
+            <button class="num-btn" onclick="pressNum('6')">6</button>
+            <button class="num-btn" onclick="pressNum('7')">7</button>
+            <button class="num-btn" onclick="pressNum('8')">8</button>
+            <button class="num-btn" onclick="pressNum('9')">9</button>
+            <button class="num-btn action-btn" onclick="clearCode()" title="Clear">CLR</button>
+            <button class="num-btn" onclick="pressNum('0')">0</button>
+            <button class="num-btn enter-btn" onclick="deleteLast()" title="Backspace">⌫</button>
+        </div>
+    </div>
+
+    <script>
+        let currentCode = "";
+        const correctCode = "3112";
+        const dots = document.querySelectorAll(".dot");
+        const statusMsg = document.getElementById("statusMsg");
+        const lockCard = document.getElementById("lockCard");
+
+        function updateDots() {
+            dots.forEach((dot, index) => {
+                if (index < currentCode.length) {
+                    dot.classList.add("filled");
+                } else {
+                    dot.classList.remove("filled");
+                }
+            });
+        }
+
+        function pressNum(num) {
+            if (currentCode.length < 4) {
+                currentCode += num;
+                updateDots();
+
+                if (currentCode.length === 4) {
+                    setTimeout(checkPasscode, 250);
+                }
+            }
+        }
+
+        function deleteLast() {
+            currentCode = currentCode.slice(0, -1);
+            updateDots();
+        }
+
+        function clearCode() {
+            currentCode = "";
+            updateDots();
+            statusMsg.textContent = "Hint: A special date! 🌸";
+        }
+
+        function checkPasscode() {
+            if (currentCode === correctCode) {
+                statusMsg.style.color = "#2ecc71";
+                statusMsg.textContent = "Yay! Unlocked! Welcome SUNSHINE";
+                setTimeout(() => {
+                    window.location.href = "welcome.html";
+                }, 700);
+            } else {
+                statusMsg.style.color = "#e74c3c";
+                statusMsg.textContent = "Oops! Wrong passcode, try again! ";
+                lockCard.classList.remove("error-shake");
+                void lockCard.offsetWidth; // trigger reflow
+                lockCard.classList.add("error-shake");
+                setTimeout(() => {
+                    currentCode = "";
+                    updateDots();
+                }, 500);
+            }
+        }
+
+        // Also support keyboard typing!
+        document.addEventListener("keydown", (e) => {
+            if (e.key >= "0" && e.key <= "9") {
+                pressNum(e.key);
+            } else if (e.key === "Backspace") {
+                deleteLast();
+            } else if (e.key === "Escape") {
+                clearCode();
+            }
+        });
+    </script>
+</body>
+</html>

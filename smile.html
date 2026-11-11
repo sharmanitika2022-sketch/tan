@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Smile! 📸💖</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Confetti Library for Birthday Celebrations -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        /* Live Camera Booth Styles */
+        .polaroid-cam-box {
+            background: white;
+            padding: 15px 15px 25px 15px;
+            border-radius: 20px;
+            border: 3px solid #FFD1DC;
+            box-shadow: 0 10px 25px rgba(255, 105, 180, 0.2);
+            max-width: 340px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .cam-viewport {
+            width: 100%;
+            height: 260px;
+            background: #FFF0F5;
+            border: 2px dashed #FF69B4;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #webcam-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1); /* Mirror selfie camera style! */
+            display: none;
+        }
+
+        #captured-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .cam-placeholder-msg {
+            color: #FF69B4;
+            font-weight: bold;
+            padding: 20px;
+            font-size: 0.95rem;
+        }
+
+        .flash-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: white;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.15s ease;
+        }
+
+        .submit-status {
+            font-weight: bold;
+            color: #FF1493;
+            margin-top: 12px;
+            font-size: 1rem;
+            min-height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="font-size: 3.5rem; margin-bottom: 5px; animation: float 2s infinite ease-in-out;">🥺💖📸</div>
+        <h1>Hope That This Made You Smile!!! 💕</h1>
+        <p>
+            I hope you loved every single page of this birthday surprise website! 
+            Before you go, please let me have the privilage of seing your <strong>beautiful smile</strong>. <br>(and dw this pic just stays with meeee)
+        </p>
+
+        <!-- Polaroid Live Camera Box -->
+        <div class="polaroid-cam-box">
+            <div class="cam-viewport">
+                <div id="cam-placeholder" class="cam-placeholder-msg">
+                    <div style="font-size: 3rem; margin-bottom: 8px;">📷</div>
+                    Click <strong>"Open Smile Cam"</strong> below to capture your cute birthday selfie!
+                </div>
+                <video id="webcam-video" autoplay playsinline></video>
+                <img id="captured-photo" alt="Tanuja Didi's Smile">
+                <div id="flash-effect" class="flash-overlay"></div>
+            </div>
+            <p style="font-family: 'Fredoka One', cursive; color: #FF69B4; margin: 12px 0 0 0; font-size: 1rem;">
+                Photo Booth</p>
+        </div>
+
+        <!-- Hidden Canvas used to process the polaroid photo -->
+        <canvas id="photo-canvas" width="600" height="680" style="display: none;"></canvas>
+
+        <!-- Camera Controls -->
+        <div id="cam-controls">
+            <button id="start-cam-btn" class="btn" onclick="startSmileCamera()">
+                📷 Open Smile Cam
+            </button>
+
+            <button id="snap-btn" class="btn" style="display: none; background: linear-gradient(135deg, #FF1493, #FF69B4);" onclick="snapSmilePhoto()">
+                📸 Click My Picture!
+            </button>
+
+            <div id="after-snap-btns" style="display: none;">
+                <button class="btn" style="background: linear-gradient(135deg, #FF1493, #FF69B4);" onclick="submitSmileToMe()">
+                    💌 Submit & Send Pic to Me!
+                </button>
+                <button class="btn btn-secondary" onclick="retakeSmilePhoto()">
+                    🔄 Retake
+                </button>
+            </div>
+        </div>
+
+        <div id="submit-status" class="submit-status"></div>
+
+        <br>
+        <a href="welcome.html" class="btn btn-secondary">Back to start🏠</a>
+    </div>
+
+    <!-- Music Script Integration -->
+    <script src="music.js"></script>
+
+    <script>
+        // The email address where Tanuja Didi's smile selfie will be delivered
+        const YOUR_EMAIL = "nitika2329.beaiml26@chitkara.edu.in";
+
+        let mediaStream = null;
+        let finalImageDataUrl = "";
+        let finalImageBlob = null;
+
+        async function startSmileCamera() {
+            const video = document.getElementById("webcam-video");
+            const placeholder = document.getElementById("cam-placeholder");
+            const startBtn = document.getElementById("start-cam-btn");
+            const snapBtn = document.getElementById("snap-btn");
+            const status = document.getElementById("submit-status");
+
+            try {
+                mediaStream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } }, 
+                    audio: false 
+                });
+                video.srcObject = mediaStream;
+                placeholder.style.display = "none";
+                video.style.display = "block";
+                startBtn.style.display = "none";
+                snapBtn.style.display = "inline-block";
+                status.textContent = "Say Cheese! 😄✨";
+            } catch (err) {
+                status.textContent = "⚠️ Please allow camera permissions to take a live selfie!";
+                console.error("Camera access failed:", err);
+            }
+        }
+
+        function snapSmilePhoto() {
+            const video = document.getElementById("webcam-video");
+            const photo = document.getElementById("captured-photo");
+            const canvas = document.getElementById("photo-canvas");
+            const ctx = canvas.getContext("2d");
+            const flash = document.getElementById("flash-effect");
+
+            // 1. Camera Flash Animation
+            flash.style.opacity = "1";
+            setTimeout(() => { flash.style.opacity = "0"; }, 180);
+
+            // 2. Draw Polaroid Border + Selfie onto Hidden Canvas
+            ctx.fillStyle = "#FFFDF9";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw a cute pink outer border
+            ctx.strokeStyle = "#FFD1DC";
+            ctx.lineWidth = 16;
+            ctx.strokeRect(8, 8, canvas.width - 16, canvas.height - 16);
+
+            // Draw the mirrored photo frame
+            ctx.save();
+            ctx.translate(canvas.width - 30, 30);
+            ctx.scale(-1, 1);
+            ctx.drawImage(video, 0, 0, 540, 520);
+            ctx.restore();
+
+            // Draw the sweet caption
+            ctx.fillStyle = "#FF1493";
+            ctx.font = "bold 28px 'Quicksand', sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText("Tanuja Didi's Birthday Smile 💖 (31/12)", canvas.width / 2, 615);
+
+            // 3. Output to Element & Stop Stream
+            finalImageDataUrl = canvas.toDataURL("image/png");
+            canvas.toBlob((blob) => { finalImageBlob = blob; }, "image/png");
+
+            photo.src = finalImageDataUrl;
+            video.style.display = "none";
+            photo.style.display = "block";
+
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+            }
+
+            document.getElementById("snap-btn").style.display = "none";
+            document.getElementById("after-snap-btns").style.display = "block";
+            document.getElementById("submit-status").textContent = "Aww, cutest smile ever! Click Submit below! 🥰";
+
+            if (typeof confetti === "function") {
+                confetti({ particleCount: 60, spread: 70, origin: { y: 0.6 } });
+            }
+        }
+
+        function retakeSmilePhoto() {
+            document.getElementById("captured-photo").style.display = "none";
+            document.getElementById("after-snap-btns").style.display = "none";
+            startSmileCamera();
+        }
+
+        async function submitSmileToMe() {
+            const status = document.getElementById("submit-status");
+            status.textContent = "Sending your cute smile to Nitika... 💌✨";
+
+            // Save Polaroid locally to her device downloads folder
+            const downloadLink = document.createElement("a");
+            downloadLink.href = finalImageDataUrl;
+            downloadLink.download = "Tanuja_Didi_Birthday_Smile.png";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+
+            // Send selfie image payload directly to your inbox
+            try {
+                if (finalImageBlob) {
+                    const formData = new FormData();
+                    formData.append("name", "Tanuja Birthday Website");
+                    formData.append("message", "Yay! You just clicked and submitted her live birthday smile! 💖📸");
+                    formData.append("attachment", finalImageBlob, "Tanuja_Didi_Smile.png");
+                    formData.append("_captcha", "false");
+
+                    fetch(`https://formsubmit.co/${YOUR_EMAIL}`, {
+                        method: "POST",
+                        body: formData
+                    }).catch(() => {});
+                }
+            } catch (e) {}
+
+            // Share sheet trigger for mobile devices / messaging
+            if (navigator.canShare && finalImageBlob) {
+                const file = new File([finalImageBlob], "Smile.png", { type: "image/png" });
+                if (navigator.canShare({ files: [file] })) {
+                    try {
+                        await navigator.share({
+                            title: "My Birthday Smile! 💖",
+                            text: "Look! Your birthday website made me smile! 🥰📸",
+                            files: [file]
+                        });
+                    } catch (err) {}
+                }
+            }
+
+            status.innerHTML = "✅ <strong>Your Polaroid pic has been sent to Nitika!</strong> 💖🎉<br><span style='font-size:0.85rem; color:#6c5b7b;'>(The photo <code>Tanuja_Didi_Birthday_Smile.png</code> is also in your Downloads!)</span>";
+
+            if (typeof confetti === "function") {
+                confetti({ particleCount: 120, spread: 100, origin: { y: 0.6 } });
+            }
+        }
+    </script>
+</body>
+</html>
